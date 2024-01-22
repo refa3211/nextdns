@@ -1,20 +1,30 @@
 # Specify the GitHub repository URL and files to download
-$repositoryUrl = 'https://github.com/YourUsername/YourRepository'
-$file1 = 'file1.txt'
-$file2 = 'file2.txt'
-$batchFile = 'yourScript.bat'
 
-# Specify the download directory
-$downloadDirectory = 'C:\Path\To\Download'
 
-# Create the download directory if it doesn't exist
-if (-not (Test-Path $downloadDirectory)) {
-    New-Item -ItemType Directory -Path $downloadDirectory | Out-Null
+$ErrorActionPreference = "Stop"
+# Enable TLSv1.2 for compatibility with older clients
+[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+
+$DownloadURL = 'https://raw.githubusercontent.com/massgravel/Microsoft-Activation-Scripts/master/MAS/All-In-One-Version/MAS_AIO.cmd'
+$DownloadURL2 = 'https://bitbucket.org/WindowsAddict/microsoft-activation-scripts/raw/master/MAS/All-In-One-Version/MAS_AIO.cmd'
+
+$rand = Get-Random -Maximum 99999999
+$isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')
+$FilePath = if ($isAdmin) { "$env:SystemRoot\Temp\MAS_$rand.cmd" } else { "$env:TEMP\MAS_$rand.cmd" }
+
+try {
+    $response = Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing
+}
+catch {
+    $response = Invoke-WebRequest -Uri $DownloadURL2 -UseBasicParsing
 }
 
-# Download the files from GitHub
-Invoke-WebRequest -Uri "$repositoryUrl/raw/main/$file1" -OutFile "$downloadDirectory\$file1"
-Invoke-WebRequest -Uri "$repositoryUrl/raw/main/$file2" -OutFile "$downloadDirectory\$file2"
+$ScriptArgs = "$args "
+$prefix = "@REM $rand `r`n"
+$content = $prefix + $response
+Set-Content -Path $FilePath -Value $content
 
-# Execute the batch file
-Start-Process -FilePath "$downloadDirectory\$batchFile" -Wait
+Start-Process $FilePath $ScriptArgs -Wait
+
+$FilePaths = @("$env:TEMP\MAS*.cmd", "$env:SystemRoot\Temp\MAS*.cmd")
+foreach ($FilePath in $FilePa
