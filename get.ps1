@@ -30,7 +30,7 @@ try {
         if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
             $CommandLine = "& `"$($MyInvocation.InvocationName)`" $args"
             Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$($MyInvocation.InvocationName)`" $args"
-            Exit
+            
         }
     }
 
