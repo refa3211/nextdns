@@ -27,11 +27,10 @@ Remove-Item -Path "$FilePath.zip"
 try {
     # Self-elevate the script if required
     if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
-        if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
-            $CommandLine = "& `"$($MyInvocation.InvocationName)`" $args"
-            Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$($MyInvocation.InvocationName)`" $args"
-            
-        }
+        $ScriptPath = $MyInvocation.MyCommand.Definition
+        $CommandLine = "& `"$ScriptPath`" $args"
+        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ScriptPath`" $args"
+        Exit
     }
 
     # Check if the current session is elevated
