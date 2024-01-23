@@ -8,13 +8,6 @@ $FilePath = if ([Security.Principal.WindowsPrincipal][Security.Principal.Windows
     "$env:TEMP\nextdns"
 }
 
-# # Self-elevate the script if not already running as admin
-# If (-Not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
-#     $arguments = "& '" + $myinvocation.mycommand.definition + "'"
-#     Start-Process powershell -Verb runAs -ArgumentList $arguments
-#     Break
-# }
-
 # Download the zip file
 try {
     Invoke-WebRequest -Uri $releaseUrl -OutFile "$FilePath.zip"
