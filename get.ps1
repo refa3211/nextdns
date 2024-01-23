@@ -1,4 +1,5 @@
 # Specify the GitHub repository URL and files to download
+echo "this is "
 
 $ErrorActionPreference = "Stop"
 # Enable TLSv1.2 for compatibility with older clients
