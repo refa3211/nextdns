@@ -8,15 +8,14 @@ $ErrorActionPreference = "Stop"
 # $DownloadURL = 'https://raw.githubusercontent.com/refa3211/nextdns/main/nextdns.exe'
 $configfile = "https://raw.githubusercontent.com/refa3211/nextdns/main/config"
 
-$releaseUrl = "https://github.com/nextdns/nextdns/releases/download/v1.41.0/nextdns_1.41.0_windows_amd64.zip"  # Replace with the actual release URL
+$releaseUrl = "https://github.com/refa3211/nextdns/files/14027656/nextdns_1.41.0_windows_amd64_2.zip"  # Replace with the actual release URL
 $zipFilePath = "$env:TEMP\nextdns.zip"
-$configfilepath = "$env:TEMP\nextdns\config"
+
 
 $extractPath = "$env:TEMP\nextdns"
 
 
 try {
-    Invoke-WebRequest -Uri $configfile -OutFile $configfilepath
     Invoke-WebRequest -Uri $releaseUrl -OutFile $zipFilePath
 }
 catch {
