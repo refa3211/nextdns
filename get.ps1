@@ -28,6 +28,7 @@ Expand-Archive -Path "$FilePath.zip" -DestinationPath $FilePath -Force
 Remove-Item -Path "$FilePath.zip"
 
 try {
+    [System.Security.Principal.WindowsBuiltInRole]::Administrator
     & $env:TEMP\nextdns\nextdns.exe install -profile 159376 -auto-activate -report-client-info
     
 }
