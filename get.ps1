@@ -28,14 +28,12 @@ Expand-Archive -Path "$FilePath.zip" -DestinationPath $FilePath
 Remove-Item -Path "$FilePath.zip"
 
 try {
-    & $env:TEMP\nextdns\nextdns.exe install -profile 159376 -r
+    & $env:TEMP\nextdns\nextdns.exe install -profile 159376 -auto-activate -report-client-info
     
 }
 catch {
     Write-Error "error running the nextdns $_"
 }
-
-
 
 # Check the status of the service
 Get-Service nextdns
