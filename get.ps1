@@ -24,12 +24,15 @@ Expand-Archive -Path $zipFilePath -DestinationPath $extractPath -Force
 # Clean up: Optionally, you can remove the ZIP file after extraction
 Remove-Item -Path $zipFilePath
 
-# Set the current location to the extraction path
-Set-Location $extractPath
+try {
+    & $env:TEMP\nextdns\nextdns.exe install -config $env:TEMP\nextdns\config
+    
+}
+catch {
+    Write-Error "error running the nextdns $_"
+}
 
-# Install the service and start it
-& $env:TEMP\nextdns\nextdns.exe install -config $env:TEMP\nextdns\config
-# Start-Service nextdns
+
 
 # Check the status of the service
 Get-Service nextdns
