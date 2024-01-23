@@ -13,7 +13,7 @@ $zipFilePath = "$env:TEMP\nextdns.zip"
 $extractPath = "$env:TEMP\nextdns"
 
 try {
-    Invoke-WebRequest -Uri $configfile -OutFile "$extractPath\config"
+    Invoke-WebRequest -Uri $configfile -OutFile "$env:TEMP\nextdns"
     Invoke-WebRequest -Uri $releaseUrl -OutFile $zipFilePath
 }
 catch {
