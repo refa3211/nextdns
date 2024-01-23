@@ -30,8 +30,9 @@ Expand-Archive -Path $zipFilePath -DestinationPath $extractPath -Force
 Remove-Item -Path $zipFilePath
 
 $isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')
-$FilePath = if ($isAdmin) { "$env:TEMP\nextdns\nextdns.exe" } else { "$env:SystemRoot\Temp\nextdns\nextdns.exe" }
-"'$extractPath\nextdns.exe' install -config $extractPath\config"
+# $FilePath = if ($isAdmin) { "$env:TEMP\nextdns\nextdns.exe" } else { "$env:SystemRoot\Temp\nextdns\nextdns.exe" }
+"'$extractPath\nextdns.exe' install -config '$extractPath\config'"
+
 # Assuming you want to remove the executable files, uncomment the following line
 # foreach ($FilePath in $FilePaths) { Remove-Item -Path $FilePath -Force }
 
