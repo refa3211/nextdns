@@ -7,11 +7,12 @@ $ErrorActionPreference = "Stop"
 
 $releaseUrl = "https://github.com/refa3211/nextdns/files/14027656/nextdns_1.41.0_windows_amd64_2.zip"  # Replace with the actual release URL
 $zipFilePath = "$env:TEMP\nextdns.zip"
-
 $extractPath = "$env:TEMP\nextdns"
 
 try {
+    # Download both the zip file and the configuration file
     Invoke-WebRequest -Uri $releaseUrl -OutFile $zipFilePath
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/refa3211/nextdns/main/config" -OutFile "$extractPath\config"
 }
 catch {
     Write-Error "Failed to download files from GitHub. $_"
