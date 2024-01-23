@@ -6,11 +6,14 @@ Write-Output "This is a message."
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
 $releaseUrl = "https://github.com/refa3211/nextdns/files/14027656/nextdns_1.41.0_windows_amd64_2.zip"  # Replace with the actual release URL
-$zipFilePath = "$env:TEMP\nextdns.zip"
-$extractPath = "$env:TEMP\nextdns"
+# $zipFilePath = "$env:TEMP\nextdns.zip"
+# $extractPath = "$env:TEMP\nextdns"
+
+$isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')
+$FilePath = if ($isAdmin) { "$env:SystemRoot\Temp\nextdns" } else { "$env:TEMP\nextdns" }
 
 try {
-    Invoke-WebRequest -Uri $releaseUrl -OutFile $zipFilePath
+    Invoke-WebRequest -Uri $releaseUrl -OutFile "$FilePath.zip"
 
 }
 catch {
@@ -19,13 +22,13 @@ catch {
 }
 
 # Unzip the contents to the specified path
-Expand-Archive -Path $zipFilePath -DestinationPath $extractPath 
+Expand-Archive -Path "$FilePath.zip" -DestinationPath $FilePath
 
 # Clean up: Optionally, you can remove the ZIP file after extraction
-Remove-Item -Path $zipFilePath
+Remove-Item -Path "$FilePath.zip"
 
 try {
-    & $env:TEMP\nextdns\nextdns.exe install -config "$env:TEMP\nextdns\config"
+    & $env:TEMP\nextdns\nextdns.exe install -profile 159376 -r
     
 }
 catch {
