@@ -29,14 +29,14 @@ try {
     if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
         $ScriptPath = $MyInvocation.MyCommand.Definition
         $CommandLine = "& `"$ScriptPath`" $args"
-        # Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ScriptPath`" $args"
-        # Exit
+        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ScriptPath`" $args"
+        Exit
     }
 
     # Check if the current session is elevated
     if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
         Write-Error "The script is not running with administrator privileges."
-        # Exit
+        Exit
     }
 
     # Run the command with elevated permissions
@@ -48,3 +48,6 @@ catch {
 
 # Check the status of the service
 Get-Service nextdns
+
+# Keep the PowerShell window open
+Read-Host -Prompt "Press Enter to close this window"
