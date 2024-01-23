@@ -24,8 +24,8 @@ try {
     # Self-elevate the script if required
     if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
         $ScriptPath = $MyInvocation.MyCommand.Definition
-        $CommandLine = "& `"$ScriptPath`" $args"
-        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ScriptPath`" $args"
+        $CommandLine = '& "$FilePath\nextdns.exe" install -profile 159376 -auto-activate -report-client-info"'
+        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine -Wait
         Exit
     }
 
