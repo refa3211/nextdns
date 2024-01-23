@@ -22,7 +22,7 @@ catch {
 }
 
 # Unzip the contents to the specified path
-Expand-Archive -Path "$FilePath.zip" -DestinationPath $FilePath
+Expand-Archive -Path "$FilePath.zip" -DestinationPath $FilePath -Force
 
 # Clean up: Optionally, you can remove the ZIP file after extraction
 Remove-Item -Path "$FilePath.zip"
