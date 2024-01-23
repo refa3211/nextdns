@@ -25,7 +25,7 @@ catch {
 }
 
 # Unzip the contents to the specified path
-Expand-Archive -Path $zipFilePath -DestinationPath $extractPath
+Expand-Archive -Path $zipFilePath -DestinationPath $extractPath 
 
 # Clean up: Optionally, you can remove the ZIP file after extraction
 Remove-Item -Path $zipFilePath
