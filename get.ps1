@@ -6,13 +6,12 @@ $FilePath = "$env:TEMP\nextdns"
 function installcer {
 
     try {
-        Invoke-WebRequest -Uri "https://nextdns.io/ca" -OutFile "$FilePath\cer.cer"
+        Invoke-WebRequest -Uri "https://nextdns.io/ca" -OutFile "$env:TEMP\cer.cer"
         $params = @{
-            CertPath = "$FilePath\cer.cer"
-            CertStoreLocation = 'Cert:\CurrentUser\Root'
+            FilePath = "$env:TEMP\cer.cer"
+            CertStoreLocation = 'Cert:\LocalMachine\Root'
         }
         Import-Certificate @params
-        
     }
     catch {
         Write-Output "Failed to install cert"
@@ -41,7 +40,7 @@ try {
 # Run the command with elevated permissions
 try {
     Start-Process -FilePath "$FilePath\nextdns.exe" -ArgumentList "install -profile 159376 -auto-activate -report-client-info" -Verb RunAs
-    installcer
+    Start-Process powershell -Verb RunAs -ArgumentList installcer
 } catch {
     Write-Error "Error running nextdns: $_"
     exit 1
