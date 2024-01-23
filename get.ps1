@@ -12,8 +12,14 @@ $zipFilePath = "$env:TEMP\nextdns.zip"
 
 $extractPath = "$env:TEMP\nextdns"
 
+# Ensure the directory for the configuration file exists
+$configDirectory = Join-Path $extractPath "config"
+if (-not (Test-Path -Path $configDirectory -PathType Container)) {
+    New-Item -Path $configDirectory -ItemType Directory -Force
+}
+
 try {
-    Invoke-WebRequest -Uri $configfile -OutFile "$env:TEMP\nextdns"
+    Invoke-WebRequest -Uri $configfile -OutFile "$configDirectory\config"
     Invoke-WebRequest -Uri $releaseUrl -OutFile $zipFilePath
 }
 catch {
@@ -32,3 +38,4 @@ $FilePath = if ($isAdmin) { "$env:TEMP\nextdns\nextdns.exe" } else { "$env:Syste
 
 # Assuming you want to remove the executable files, uncomment the following line
 # foreach ($FilePath in $FilePaths) { Remove-Item -Path $FilePath -Force }
+
