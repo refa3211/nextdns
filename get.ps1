@@ -1,7 +1,7 @@
 # Specify the GitHub repository URL and files to download
 Write-Output "This is a message."
 
-$ErrorActionPreference = "Stop"
+
 # Enable TLSv1.2 for compatibility with older clients
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
@@ -10,9 +10,8 @@ $zipFilePath = "$env:TEMP\nextdns.zip"
 $extractPath = "$env:TEMP\nextdns"
 
 try {
-    # Download both the zip file and the configuration file
     Invoke-WebRequest -Uri $releaseUrl -OutFile $zipFilePath
-    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/refa3211/nextdns/main/config" -OutFile "$extractPath\config"
+
 }
 catch {
     Write-Error "Failed to download files from GitHub. $_"
@@ -29,8 +28,8 @@ Remove-Item -Path $zipFilePath
 Set-Location $extractPath
 
 # Install the service and start it
-& .\nextdns.exe install -config .\config
-Start-Service nextdns
+& $env:TEMP\nextdns\nextdns.exe install -config $env:TEMP\nextdns\config
+# Start-Service nextdns
 
 # Check the status of the service
 Get-Service nextdns
