@@ -9,17 +9,13 @@ $configfile = "https://raw.githubusercontent.com/refa3211/nextdns/main/config"
 
 $releaseUrl = "https://github.com/nextdns/nextdns/releases/download/v1.41.0/nextdns_1.41.0_windows_amd64.zip"  # Replace with the actual release URL
 $zipFilePath = "$env:TEMP\nextdns.zip"
+$configfilepath = "$env:TEMP\nextdns\config"
 
 $extractPath = "$env:TEMP\nextdns"
 
-# Ensure the directory for the configuration file exists
-$configDirectory = Join-Path $extractPath "config"
-if (-not (Test-Path -Path $configDirectory -PathType Container)) {
-    New-Item -Path $configDirectory -ItemType Directory -Force
-}
 
 try {
-    Invoke-WebRequest -Uri $configfile -OutFile "$configDirectory\config"
+    Invoke-WebRequest -Uri $configfile -OutFile $configfilepath
     Invoke-WebRequest -Uri $releaseUrl -OutFile $zipFilePath
 }
 catch {
@@ -39,3 +35,4 @@ $FilePath = if ($isAdmin) { "$env:TEMP\nextdns\nextdns.exe" } else { "$env:Syste
 # Assuming you want to remove the executable files, uncomment the following line
 # foreach ($FilePath in $FilePaths) { Remove-Item -Path $FilePath -Force }
 
+Get-Service nextdns
