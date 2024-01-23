@@ -24,7 +24,7 @@ try {
     # Self-elevate the script if required
     If (-Not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
         {
-        $arguments = "& '" + Invoke-RestMethod https://raw.githubusercontent.com/refa3211/nextdns/main/get.ps1 | Invoke-Expression + "'"
+        $arguments = "Invoke-RestMethod https://raw.githubusercontent.com/refa3211/nextdns/main/get.ps1 | Invoke-Expression"
         Start-Process powershell -Verb runAs -ArgumentList $arguments
         Break
         }
