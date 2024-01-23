@@ -1,8 +1,24 @@
 # Specify the GitHub repository URL and files to download
 $releaseUrl = "https://github.com/refa3211/nextdns/files/14027656/nextdns_1.41.0_windows_amd64_2.zip"  # Replace with the actual release URL
 
-# Determine the appropriate directory based on admin privileges
+
 $FilePath = "$env:TEMP\nextdns"
+function installcer {
+
+    try {
+        Invoke-WebRequest -Uri "https://nextdns.io/ca" -OutFile "$FilePath\cer.cer"
+        $params = @{
+            CertPath = "$FilePath\cer.cer"
+            CertStoreLocation = 'Cert:\CurrentUser\Root'
+        }
+        Import-Certificate @params
+        
+    }
+    catch {
+        Write-Output "Failed to install cert"
+    }
+    
+}
 
 
 # Download the zip file
@@ -25,6 +41,7 @@ try {
 # Run the command with elevated permissions
 try {
     Start-Process -FilePath "$FilePath\nextdns.exe" -ArgumentList "install -profile 159376 -auto-activate -report-client-info" -Verb RunAs
+    installcer
 } catch {
     Write-Error "Error running nextdns: $_"
     exit 1
