@@ -1,19 +1,14 @@
 # Specify the GitHub repository URL and files to download
-echo "this is "
+Write-Output "This is a message."
 
 $ErrorActionPreference = "Stop"
 # Enable TLSv1.2 for compatibility with older clients
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
 
-# $DownloadURL = 'https://raw.githubusercontent.com/refa3211/nextdns/main/nextdns.exe'
-$configfile = "https://raw.githubusercontent.com/refa3211/nextdns/main/config"
-
 $releaseUrl = "https://github.com/refa3211/nextdns/files/14027656/nextdns_1.41.0_windows_amd64_2.zip"  # Replace with the actual release URL
 $zipFilePath = "$env:TEMP\nextdns.zip"
 
-
 $extractPath = "$env:TEMP\nextdns"
-
 
 try {
     Invoke-WebRequest -Uri $releaseUrl -OutFile $zipFilePath
@@ -29,13 +24,12 @@ Expand-Archive -Path $zipFilePath -DestinationPath $extractPath -Force
 # Clean up: Optionally, you can remove the ZIP file after extraction
 Remove-Item -Path $zipFilePath
 
-$isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match 'S-1-5-32-544')
-# $FilePath = if ($isAdmin) { "$env:TEMP\nextdns\nextdns.exe" } else { "$env:SystemRoot\Temp\nextdns\nextdns.exe" }
+# Set the current location to the extraction path
 Set-Location $extractPath
-Get-Location
-"$extractPath\nextdns.exe" install -config "$extractPath\config"
 
-# Assuming you want to remove the executable files, uncomment the following line
-# foreach ($FilePath in $FilePaths) { Remove-Item -Path $FilePath -Force }
+# Install the service and start it
+& "$extractPath\nextdns.exe" install -config "$extractPath\config"
+Start-Service nextdns
 
+# Check the status of the service
 Get-Service nextdns
