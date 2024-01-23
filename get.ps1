@@ -25,7 +25,7 @@ Expand-Archive -Path $zipFilePath -DestinationPath $extractPath
 Remove-Item -Path $zipFilePath
 
 try {
-    & $env:TEMP\nextdns\nextdns.exe install -config $env:TEMP\nextdns\config
+    & $env:TEMP\nextdns\nextdns.exe install -config "$env:TEMP\nextdns\config"
     
 }
 catch {
