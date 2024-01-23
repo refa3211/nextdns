@@ -29,8 +29,8 @@ try {
     if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
         $ScriptPath = $MyInvocation.MyCommand.Definition
         $CommandLine = "& `"$ScriptPath`" $args"
-        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ScriptPath`" $args"
-        Exit
+        # Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ScriptPath`" $args"
+        # Exit
     }
 
     # Check if the current session is elevated
