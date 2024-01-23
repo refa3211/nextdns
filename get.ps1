@@ -28,6 +28,15 @@ Expand-Archive -Path "$FilePath.zip" -DestinationPath $FilePath -Force
 Remove-Item -Path "$FilePath.zip"
 
 try {
+    # Self-elevate the script if require
+    if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
+        if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
+            $CommandLine = Invoke-RestMethod https://raw.githubusercontent.com/refa3211/nextdns/main/get.ps1 | Invoke-Expression
+            Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
+            Exit
+        }
+    }
+
     [System.Security.Principal.WindowsBuiltInRole]::Administrator
     & $env:TEMP\nextdns\nextdns.exe install -profile 159376 -auto-activate -report-client-info
     
