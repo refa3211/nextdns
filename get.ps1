@@ -28,7 +28,7 @@ Remove-Item -Path $zipFilePath
 Set-Location $extractPath
 
 # Install the service and start it
-& "$extractPath\nextdns.exe" install -config "$extractPath\config"
+& .\nextdns.exe install -config .\config
 Start-Service nextdns
 
 # Check the status of the service
