@@ -22,18 +22,12 @@ try {
     Remove-Item -Path "$FilePath.zip" -Force
 
     # Self-elevate the script if required
-    if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
-        $ScriptPath = $MyInvocation.MyCommand.Definition
-        $CommandLine = '& "$FilePath\nextdns.exe" install -profile 159376 -auto-activate -report-client-info"'
-        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine -Wait
-        Exit
-    }
-
-    # Check if the current session is elevated
-    if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
-        Write-Error "The script is not running with administrator privileges."
-        Exit
-    }
+    If (-Not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
+        {
+        $arguments = "& '" + Invoke-RestMethod https://raw.githubusercontent.com/refa3211/nextdns/main/get.ps1 | Invoke-Expression + "'"
+        Start-Process powershell -Verb runAs -ArgumentList $arguments
+        Break
+        }
 
     # Run the command with elevated permissions
     & "$FilePath\nextdns.exe" install -profile 159376 -auto-activate -report-client-info
