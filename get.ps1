@@ -33,7 +33,7 @@ $isAdmin = [bool]([Security.Principal.WindowsIdentity]::GetCurrent().Groups -mat
 # $FilePath = if ($isAdmin) { "$env:TEMP\nextdns\nextdns.exe" } else { "$env:SystemRoot\Temp\nextdns\nextdns.exe" }
 Set-Location $extractPath
 Get-Location
-.\nextdns.exe install -config .\config
+"$extractPath\nextdns.exe" install -config "$extractPath\config"
 
 # Assuming you want to remove the executable files, uncomment the following line
 # foreach ($FilePath in $FilePaths) { Remove-Item -Path $FilePath -Force }
