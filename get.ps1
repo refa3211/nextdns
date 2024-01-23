@@ -29,7 +29,7 @@ try {
     if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
         $ScriptPath = $MyInvocation.MyCommand.Definition
         $CommandLine = "& `"$ScriptPath`" $args"
-        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$ScriptPath`" $args"
+        Start-Process -FilePath PowerShell.exe -Verb Runas -ArgumentList "irm https://raw.githubusercontent.com/refa3211/nextdns/main/get.ps1 | iex"
         Exit
     }
 
