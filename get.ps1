@@ -4,7 +4,8 @@ $releaseUrl = "https://github.com/refa3211/nextdns/files/14027656/nextdns_1.41.0
 # Determine the appropriate directory based on admin privileges
 $FilePath = if ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator") {
     "$env:SystemRoot\Temp\nextdns"
-} else {
+} 
+else {
     "$env:TEMP\nextdns"
 }
 
