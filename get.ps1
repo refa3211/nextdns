@@ -39,7 +39,7 @@ try {
 
 # Run the command with elevated permissions
 try {
-    Start-Process -FilePath "$FilePath\nextdns.exe" -ArgumentList "install $FilePath\config" -Verb RunAs
+    Start-Process -FilePath "$FilePath\nextdns.exe" -ArgumentList "install -config $FilePath\config" -Verb RunAs
     installcer
 } catch {
     Write-Error "Error running nextdns: $_"
