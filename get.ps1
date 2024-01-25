@@ -11,7 +11,7 @@ function installcer {
             FilePath = "$env:TEMP\cer.cer"
             CertStoreLocation = 'Cert:\LocalMachine\Root'
         }
-        Import-Certificate @params
+        Import-Certificate @params -Confirm
     }
     catch {
         Write-Output "Failed to install cert"
