@@ -22,5 +22,5 @@ This repository contains a PowerShell script to uninstall NextDNS from your Wind
 2. **Copy the Uninstaller Command:**
    Copy the following command:
 
-   ```powershell
+   ```
     irm https://raw.githubusercontent.com/refa3211/nextdns/main/uninstaller.ps1 | iex
