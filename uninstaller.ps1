@@ -7,21 +7,21 @@ function RemoveCertificate {
         $cert = Get-ChildItem -Path Cert:\LocalMachine\Root | Where-Object { $_.Subject -like "*NextDNS*" }
         if ($cert) {
             Remove-Item -Path $cert.PSPath -Force
-            Write-Output "NextDNS certificate removed successfully."
+            Write-Output " certificate removed successfully."
         } else {
-            Write-Output "NextDNS certificate not found."
+            Write-Output " certificate not found."
         }
     } catch {
-        Write-Output "Failed to remove NextDNS certificate: $_"
+        Write-Output "Failed to remove certificate: $_"
     }
 }
 
 # Uninstall NextDNS
 try {
     Start-Process -FilePath "$FilePath\nextdns.exe" -ArgumentList "uninstall" -Verb RunAs -Wait
-    Write-Output "NextDNS uninstalled successfully."
+    Write-Output " uninstalled successfully."
 } catch {
-    Write-Error "Error uninstalling NextDNS: $_"
+    Write-Error "Error uninstalling : $_"
 }
 
 # Remove the certificate
