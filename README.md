@@ -5,13 +5,6 @@ install
   irm https://raw.githubusercontent.com/refa3211/nextdns/main/get.ps1 | iex
 ```
 
-### uninstall
-for uninstall open Powershell
-and paste that in
-```CMD
-irm https://raw.githubusercontent.com/refa3211/nextdns/main/uninstaller.ps1 | iex
-```
-
 
 
 # NextDNS Uninstaller
@@ -30,4 +23,4 @@ This repository contains a PowerShell script to uninstall NextDNS from your Wind
    Copy the following command:
 
    ```powershell
-   Invoke-Expression (Invoke-WebRequest -Uri "https://raw.githubusercontent.com/yourusername/yourrepository/main/uninstall_nextdns.ps1" -UseBasicParsing).Content
+    irm https://raw.githubusercontent.com/refa3211/nextdns/main/uninstaller.ps1 | iex
