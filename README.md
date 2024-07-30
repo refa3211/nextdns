@@ -13,6 +13,8 @@ This repository contains a PowerShell script to uninstall NextDNS from your Wind
 
 ## How to Use
 
+![](powershell.png)
+
 1. **Open PowerShell as Administrator:**
    - Press the Windows key
    - Type "PowerShell"
