@@ -5,7 +5,6 @@
 ```
 
 uninstall
-```powershell
-
+```CMD
 irm https://raw.githubusercontent.com/refa3211/nextdns/main/uninstaller.ps1 | iex
 ```
